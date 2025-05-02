@@ -1,4 +1,5 @@
 #include "server.h"
+#include "http.h"
 
 typedef struct ThreadParam
 {
@@ -15,6 +16,8 @@ DWORD WINAPI HandleClientConnection(LPVOID lpParam)
 
 	CHAR buffer[BUFFER_SIZE] = { '\0' };
 	recv(clientSocket, &buffer, BUFFER_SIZE - 1, 0);
+
+	LPHttpRequest httpRequest = DecodeRequest(buffer);
 
 	_tprintf(_T("Thread number: %d responding to a request\n"), threadNumber);
 
